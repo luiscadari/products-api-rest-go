@@ -1,6 +1,10 @@
 package models
 
-import "github.com/luiscadari/products-api-rest-go/db"
+import (
+	"fmt"
+
+	"github.com/luiscadari/products-api-rest-go/db"
+)
 
 type Product struct {
 	Nome string
@@ -34,4 +38,42 @@ func GetProducts()[]Product{
 	}
 	defer db.Close()
 	return products
+}
+
+func CreateProduct(newProduct Product)Product{
+	db := db.ConnectBD()
+	// Verificando se o produto já existe
+	query := "SELECT " + "*" + " FROM produtos WHERE produtos.nome = '" + newProduct.Nome + "'"
+	getProducts, err := db.Query(query)
+	if err != nil {
+		panic(err.Error())
+	}
+	var product Product
+	var products []Product 
+	for getProducts.Next(){
+		var id, quantidade int
+		var nome, descricao string
+		var preco float64
+		err = getProducts.Scan(&id, &nome, &descricao, &preco, &quantidade)
+		if err != nil {
+			panic(err.Error())
+		}
+		product.Nome = nome
+		product.Descricao = descricao
+		product.Preco = preco
+		product.Quantidade = quantidade
+		products = append(products, product)
+	}
+	if len(products) > 0 {
+		panic("Product already exists")
+	}
+	
+
+       query = fmt.Sprintf("INSERT INTO produtos (nome, descricao, preco, quantidade) VALUES('%s', '%s', %f, %d)", newProduct.Nome, newProduct.Descricao, newProduct.Preco, newProduct.Quantidade)
+       _, err = db.Exec(query)
+       if err != nil{
+	       panic(err.Error())
+       }
+	defer db.Close()
+	return newProduct
 }

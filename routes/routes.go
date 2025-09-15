@@ -8,4 +8,5 @@ import (
 
 func GetRoutes(){
 	http.HandleFunc("/", controller.GetProducts)
+	http.HandleFunc("/products/create", controller.NewProducts)
 }
