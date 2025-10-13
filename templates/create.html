@@ -31,6 +31,7 @@
             id="nome"
             aria-describedby="emailHelp"
             name="nome"
+            required
           />
           <div id="emailHelp" class="form-text">
             O produto a ser adicionado não deve existir na base.
@@ -48,7 +49,7 @@
 
         <div class="mb-3">
           <label for="preco" class="form-label">Preço</label>
-          <input type="number" class="form-control" id="preco" name="preco" />
+          <input type="number" class="form-control" id="preco" name="preco" required/>
         </div>
 
         <div class="mb-3">
@@ -58,10 +59,12 @@
             class="form-control"
             id="quantidade"
             name="quantidade"
+            required
           />
         </div>
 
         <button type="submit" class="btn btn-primary">Criar</button>
+        <a class="danger m-2" href="/">Voltar</a>
       </form>
     </div>
   </body>
