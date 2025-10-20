@@ -16,6 +16,12 @@ func GetProducts(w http.ResponseWriter, r *http.Request){
 	templates.ExecuteTemplate(w, "Index", products)
 }
 
+func DeleteProduct(w http.ResponseWriter, r *http.Request){
+	id := r.URL.Query().Get("id")
+	models.DeleteProduct(id)
+	http.Redirect(w, r, "/", 301)
+}
+
 func NewProducts(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		var product models.Product
