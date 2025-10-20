@@ -1,0 +1,58 @@
+{{define "PutProduct"}} {{template "Head"}}
+<body>
+  {{template "Navbar"}}
+  <div class="container-md mt-5 mb-5">
+    <h1 class="fs-1 fw-bold text-center">Edit Product</h1>
+  </div>
+  <div class="container-md">
+    <form method="post" action="/products/edit?id={{.Id}}">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome do Produto</label>
+        <input type="hidden" name="id" value="{{.Id}}" />
+        <input
+          type="text"
+          class="form-control"
+          id="nome"
+          aria-describedby="emailHelp"
+          name="nome"
+          value="{{.Nome}}"
+          required />
+        <label class="form-label" for="preco"> Preço </label>
+        <input
+          type="number"
+          class="form-control"
+          id="preco"
+          name="preco"
+          value="{{.Preco}}"
+          required />
+        <label class="form-label" for="descricao"> Descrição </label>
+        <input
+          type="text"
+          class="form-control"
+          id="descricao"
+          name="descricao"
+          value="{{.Descricao}}"
+          required />
+        <label class="form-label" for="quantidade"> Quantidade </label>
+        <input
+          type="number"
+          class="form-control"
+          id="quantidade"
+          name="quantidade"
+          value="{{.Quantidade}}"
+          required />
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <button type="button" onclick="onAbort()" class="btn btn-danger">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+
+<script>
+  function onAbort() {
+    window.location.href = "/";
+  }
+</script>
+{{end}}

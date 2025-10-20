@@ -31,6 +31,7 @@
                     <td>{{.Descricao}}</td>
                     <td>{{.Preco}}</td>
                     <td>{{.Quantidade}}</td>
+                    <td><button class="btn btn-primary" onclick="onEdit('{{.Id}}')">Editar</button></td>
                     <td><button class="btn btn-danger" onclick="onDelete('{{.Id}}')">Deletar</button></td>
                 </tr>
                 {{
@@ -53,6 +54,9 @@
         if(confirm("Deseja realmente excluir este produto?")){
             window.location.href = "/delete?id=" + id;
         }
+    }
+    function onEdit(id){
+        window.location.href = "/products/edit?id=" + id;
     }
 </script>
 

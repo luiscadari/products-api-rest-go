@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/luiscadari/products-api-rest-go/db"
 	"github.com/luiscadari/products-api-rest-go/models"
 )
 
@@ -41,4 +42,28 @@ func NewProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	templates.ExecuteTemplate(w, "CreateProduct", nil)
+}
+
+func PutProduct(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	if r.Method == "POST" {
+		db := db.ConnectBD()
+		newProduct, err := db.Prepare("UPDATE produtos set nome=$1, descricao=$2, preco=$3, quantidade=$4 WHERE id=$5")
+		if err != nil {
+			http.Error(w, "Unable to prepare statement", http.StatusInternalServerError)
+			return
+		}
+		defer db.Close()
+		_, err = newProduct.Exec(r.FormValue("nome"), r.FormValue("descricao"), r.FormValue("preco"), r.FormValue("quantidade"), r.FormValue("id"))
+		if err != nil {
+			http.Error(w, "Unable to execute statement", http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	if r.Method == "GET" {
+		product := models.GetProductById(id)
+		templates.ExecuteTemplate(w, "PutProduct", product)
+	}
 }
