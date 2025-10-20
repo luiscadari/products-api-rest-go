@@ -39,7 +39,7 @@
                     <td>{{.Descricao}}</td>
                     <td>{{.Preco}}</td>
                     <td>{{.Quantidade}}</td>
-                    <td><a href="/delete?id={{.Id}}" class="btn btn-danger">Excluir</a></td>
+                    <td><button class="btn btn-danger" onclick="onDelete('{{.Id}}')">Deletar</button></td>
                 </tr>
                 {{
                     end
@@ -55,5 +55,14 @@
     </div>
 
 </body>
+
+<script>
+    function onDelete(id){
+        if(confirm("Deseja realmente excluir este produto?")){
+            window.location.href = "/delete?id=" + id;
+        }
+    }
+</script>
+
 </html>
 {{end}}
